@@ -35,7 +35,7 @@ addLayer("l", {
             title: 'Supercharge',
             description: 'Gain more points based on lines',
             cost: new Decimal(1),
-            tooltip: 'Lines are supercharged, increasing point production whenever a point lies on them.', // lore
+            tooltip: 'Lines are supercharged, increasing point production whenever a point lies on them', // lore
             effect() {
                 eff = player[this.layer].points.plus(2).pow(0.5);
                 return eff;

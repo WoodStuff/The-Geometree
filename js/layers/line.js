@@ -29,4 +29,5 @@ addLayer("l", {
         { key: "l", description: "L: Reset for lines", onPress() { if (canReset(this.layer)) doReset(this.layer) } },
     ],
     layerShown() { return true },
+    resetDescription() { return `<b>${formatWhole(player.points)}</b> points will make ` },
 });

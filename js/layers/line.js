@@ -30,4 +30,17 @@ addLayer("l", {
     ],
     layerShown() { return true },
     resetDescription() { return `<b>${formatWhole(player.points)}</b> points will make ` },
+    upgrades: {
+        11: {
+            title: 'Supercharge',
+            description: 'Gain more points based on lines',
+            cost: new Decimal(1),
+            tooltip: 'Lines are supercharged, increasing point production whenever a point lies on them.', // lore
+            effect() {
+                eff = player[this.layer].points.plus(2).pow(0.5);
+                return eff;
+            },
+            effectDisplay() { return `${format(upgradeEffect('l', 11))}x` }
+        },
+    },
 });

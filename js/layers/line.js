@@ -43,10 +43,10 @@ addLayer("l", {
 			effectDisplay() { return `${format(upgradeEffect('l', 11))}x` }
 		},
 		12: {
-			title: 'Longer Lines',
+			title: 'Self-Synergy',
 			description: 'Gain more points based on points',
 			cost: new Decimal(1),
-			tooltip: 'Longer lines means more points are on the lines, empowering the first upgrade', // lore
+			tooltip: 'Points generate their own kind, but pretty slowly', // lore
 			unlocked() { return hasUpgrade('l', 11) },
 			effect() {
 				eff = player.points.plus(2).pow(0.15);

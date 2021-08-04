@@ -35,7 +35,7 @@ addLayer("i", {
 				['display-text', 'You live in a 2D geometry-based world, where you can walk in all of the 4 directions.'], 'blank',
 				['display-text', 'You\'ve decided that creating points is pretty fun, and now you\'re just trying to make a lot of points. There\'s a small possibility, but you could possibly research some new stuff for the 2D world, and go down in history.'],
 				'blank', 'blank', 'blank', 'blank',
-				['display-text', 'Some upgrades have an explanation on how they work. Hover over them to see their tooltip.'],
+				//['display-text', 'Some upgrades have an explanation on how they work (lore-based). Hover over them to see their tooltip.'],
 			],
 		},
 	},

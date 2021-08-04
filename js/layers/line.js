@@ -9,7 +9,11 @@ addLayer("l", {
 		total: new Decimal(0),
 	}},
 	color: "#5b26e0",
-	requires: new Decimal(10), // Can be a function that takes requirement increases into account
+	requires() {
+		req = new Decimal(10);
+		if (hasUpgrade('l', 13)) req = req.div(2);
+		return req;
+	}, // Can be a function that takes requirement increases into account
 	resource: "lines", // Name of prestige currency
 	baseResource: "points", // Name of resource prestige is based on
 	baseAmount() { return player.points }, // Get the current amount of baseResource
@@ -17,6 +21,8 @@ addLayer("l", {
 	exponent: 0.5, // Prestige currency exponent
 	gainMult() { // Calculate the multiplier for main currency from bonuses
 		mult = new Decimal(1);
+		if (hasUpgrade('l', 22)) mult = mult.times(2);
+		if (hasUpgrade('l', 23)) mult = mult.times(1.25);
 		return mult;
 	},
 	gainExp() { // Calculate the exponent on main currency from bonuses
@@ -35,7 +41,7 @@ addLayer("l", {
 			title: 'Supercharge',
 			description: 'Gain more points based on lines',
 			cost: new Decimal(1),
-			tooltip: 'Lines are supercharged, increasing point production whenever a point lies on them', // lore
+			//tooltip: 'Lines are supercharged, increasing point production whenever a point lies on them', // lore
 			effect() {
 				eff = player[this.layer].points.plus(2).pow(0.5);
 				return eff;
@@ -46,13 +52,38 @@ addLayer("l", {
 			title: 'Self-Synergy',
 			description: 'Gain more points based on points',
 			cost: new Decimal(1),
-			tooltip: 'Points generate their own kind, but pretty slowly', // lore
+			//tooltip: 'Points generate their own kind, but pretty slowly', // lore
 			unlocked() { return hasUpgrade('l', 11) },
 			effect() {
 				eff = player.points.plus(2).pow(0.15);
 				return eff;
 			},
 			effectDisplay() { return `${format(upgradeEffect('l', 12))}x` }
+		},
+		13: {
+			title: 'Easier Lines',
+			description: 'Halve the line requirement',
+			cost: new Decimal(3),
+			//tooltip: 'You realize you can make straight lines with less points', // lore
+			unlocked() { return hasUpgrade('l', 12) },
+		},
+		21: {
+			title: 'Point Boost',
+			description: 'Point generation x2',
+			cost: new Decimal(10),
+			unlocked() { return hasUpgrade('l', 13) },
+		},
+		22: {
+			title: 'Line Boost',
+			description: 'Line production x2',
+			cost: new Decimal(10),
+			unlocked() { return hasUpgrade('l', 13) },
+		},
+		23: {
+			title: 'General Boost',
+			description: 'Point and line production x1.25',
+			cost: new Decimal(10),
+			unlocked() { return hasUpgrade('l', 13) },
 		},
 	},
 });

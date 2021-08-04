@@ -4,9 +4,13 @@ addLayer("l", {
 	position: 0, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
 	startData() { return {
 		unlocked: true,
+
 		points: new Decimal(0),
 		best: new Decimal(0),
 		total: new Decimal(0),
+
+		particles: new Decimal(0),
+		pps: new Decimal(1),
 	}},
 	color: "#5b26e0",
 	requires() {
@@ -36,6 +40,37 @@ addLayer("l", {
 	],
 	layerShown() { return true },
 	resetDescription() { return `<b>${formatWhole(player.points)}</b> points will make ` },
+	tabFormat: {
+		'Main': {
+			content() {
+				return [
+					'main-display',
+					'prestige-button',
+					'resource-display',
+					hasUpgrade('l', 33) ? 'blank' : '',
+					hasUpgrade('l', 33) ? ['display-text', `<span>You have <h3 style="color: ${layers.l.color};">${format(player.l.particles)}</h3> line particles</span>`] : '',
+					hasUpgrade('l', 33) ? 'blank' : '',
+					'upgrades',
+				];
+			},
+		},
+		'Particles': {
+			unlocked() { return hasUpgrade('l', 33) },
+			content() {
+				return [
+					'main-display',
+					'prestige-button',
+					'blank',
+					['display-text', `<span>You have <h3 style="color: ${layers.l.color};">${format(player.l.particles)}</h3> line particles</span>`],
+					['display-text', `You are making ${format(player.l.pps)} line particles per second`],
+					'blank',
+				];
+			},
+		},
+	},
+	update(diff) {
+		if (hasUpgrade('l', 33)) player.l.particles = player.l.particles.plus(player.l.pps.times(diff));
+	},
 	upgrades: {
 		11: {
 			title: 'Supercharge',
@@ -44,6 +79,7 @@ addLayer("l", {
 			//tooltip: 'Lines are supercharged, increasing point production whenever a point lies on them', // lore
 			effect() {
 				eff = player[this.layer].points.plus(2).pow(0.5);
+				if (hasUpgrade('l', 31)) eff = eff.times(upgradeEffect('l', 31));
 				return eff;
 			},
 			effectDisplay() { return `${format(upgradeEffect('l', 11))}x` }
@@ -56,6 +92,7 @@ addLayer("l", {
 			unlocked() { return hasUpgrade('l', 11) },
 			effect() {
 				eff = player.points.plus(2).pow(0.15);
+				if (hasUpgrade('l', 32)) eff = eff.times(upgradeEffect('l', 32));
 				return eff;
 			},
 			effectDisplay() { return `${format(upgradeEffect('l', 12))}x` }
@@ -84,6 +121,34 @@ addLayer("l", {
 			description: 'Point and line production x1.25',
 			cost: new Decimal(10),
 			unlocked() { return hasUpgrade('l', 13) },
+		},
+		31: {
+			title: 'Overcharge',
+			description: 'Supercharge is more powerful based on lines',
+			cost: new Decimal(100),
+			unlocked() { return hasUpgrade('l', 21) && hasUpgrade('l', 22) && hasUpgrade('l', 23) },
+			effect() {
+				eff = player[this.layer].points.plus(2).pow(0.1);
+				return eff;
+			},
+			effectDisplay() { return `${format(upgradeEffect('l', 31))}x` },
+		},
+		32: {
+			title: 'Self-Self-Synergy',
+			description: 'Self-Synergy is more powerful based on lines',
+			cost: new Decimal(100),
+			unlocked() { return hasUpgrade('l', 31) },
+			effect() {
+				eff = player[this.layer].points.plus(2).pow(0.05);
+				return eff;
+			},
+			effectDisplay() { return `${format(upgradeEffect('l', 32))}x` }
+		},
+		33: {
+			title: 'Acceleration',
+			description: 'Begin generating Line Particles',
+			cost: new Decimal(100),
+			unlocked() { return hasUpgrade('l', 32) },
 		},
 	},
 });

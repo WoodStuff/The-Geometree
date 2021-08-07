@@ -48,7 +48,7 @@ addLayer("l", {
 					'prestige-button',
 					'resource-display',
 					hasUpgrade('l', 33) ? 'blank' : '',
-					hasUpgrade('l', 33) ? ['display-text', `<span>You have <h3 style="color: ${layers.l.color};">${format(player.l.particles)}</h3> line particles, which are multiplying point gain by ${format(player.l.particles.add(1).pow(0.05))}</span>`] : '',
+					hasUpgrade('l', 33) ? ['display-text', `<span>You have <h3 style="color: ${layers.l.color};">${format(player.l.particles)}</h3> line particles, which are multiplying point gain by ${format(player.l.particles.add(1).pow(0.15))}</span>`] : '',
 					hasUpgrade('l', 33) ? 'blank' : '',
 					['upgrades', [1, 2, 3]],
 				];
@@ -61,14 +61,24 @@ addLayer("l", {
 					'main-display',
 					'prestige-button',
 					'blank',
-					['display-text', `<span>You have <h3 style="color: ${layers.l.color};">${format(player.l.particles)}</h3> line particles, which are multiplying point gain by ${format(player.l.particles.add(1).pow(0.05))}</span>`],
+					['display-text', `<span>You have <h3 style="color: ${layers.l.color};">${format(player.l.particles)}</h3> line particles, which are multiplying point gain by ${format(player.l.particles.add(1).pow(0.15))}x</span>`],
 					['display-text', `You are making ${format(player.l.pps)} line particles per second`],
+					'blank',
+					['display-text', '<h2>Particle Upgrades</h2>'],
+					['upgrades', [4]],
 				];
 			},
 		},
 	},
 	update(diff) {
-		if (hasUpgrade('l', 33)) player.l.particles = player.l.particles.plus(player.l.pps.times(diff));
+		if (!hasUpgrade('l', 33)) return;
+
+		ps = new Decimal(1);
+		if (hasUpgrade('l', 41)) ps = ps.times(upgradeEffect('l', 41));
+
+		// add the particles
+		player.l.pps = ps;
+		player.l.particles = player.l.particles.plus(player.l.pps.times(diff));
 	},
 	upgrades: {
 		11: {
@@ -148,6 +158,19 @@ addLayer("l", {
 			description: 'Begin generating Line Particles',
 			cost: new Decimal(100),
 			unlocked() { return hasUpgrade('l', 32) },
+		},
+		41: {
+			title: 'Production',
+			description: 'Particle production is boosted based on your amount of lines',
+			cost: new Decimal(5),
+			currencyDisplayName: 'line particles',
+			currencyLocation() { return player.l },
+			currencyInternalName: 'particles',
+			effect() {
+				eff = player[this.layer].points.plus(1).pow(0.15);
+				return eff;
+			},
+			effectDisplay() { return `${format(upgradeEffect('l', 41))}x` },
 		},
 	},
 });

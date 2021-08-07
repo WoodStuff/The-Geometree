@@ -47,7 +47,7 @@ function getPointGen() {
 	if (hasUpgrade('l', 12)) gain = gain.times(upgradeEffect('l', 12));
 	if (hasUpgrade('l', 21)) gain = gain.times(2);
 	if (hasUpgrade('l', 23)) gain = gain.times(1.25);
-	if (hasUpgrade('l', 33)) gain = gain.times(player.l.particles.add(1).pow(0.05));
+	if (hasUpgrade('l', 33)) gain = gain.times(player.l.particles.add(1).pow(0.15));
 	
 	return gain;
 };

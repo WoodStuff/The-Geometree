@@ -1,5 +1,5 @@
 let modInfo = {
-	name: `The Geometry Tree`,
+	name: `The Geometree`,
 	id: `geometrytree`,
 	author: `nirmoll`,
 	pointsName: `points`,

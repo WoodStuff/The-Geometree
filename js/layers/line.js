@@ -50,7 +50,7 @@ addLayer("l", {
 					hasUpgrade('l', 33) ? 'blank' : '',
 					hasUpgrade('l', 33) ? ['display-text', `<span>You have <h3 style="color: ${layers.l.color};">${format(player.l.particles)}</h3> line particles, which are multiplying point gain by ${format(player.l.particles.add(1).pow(0.05))}</span>`] : '',
 					hasUpgrade('l', 33) ? 'blank' : '',
-					'upgrades',
+					['upgrades', [1, 2, 3]],
 				];
 			},
 		},

@@ -3,7 +3,7 @@ addLayer("c", {
 	symbol: "C", // This appears on the layer's node. Default is the id with the first letter capitalized
 	position: 0, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
 	startData() { return {
-		unlocked: true,
+		unlocked: false,
 
 		points: new Decimal(0),
 		best: new Decimal(0),
@@ -31,13 +31,16 @@ addLayer("c", {
 	hotkeys: [
 		{ key: "c", description: "C: Reset for curves", onPress() { if (canReset(this.layer)) doReset(this.layer) } },
 	],
-    branches: ['l'],
-	layerShown() { return hasUpgrade('l', 34) },
+	branches: ['l'],
+	layerShown() { return hasUpgrade('l', 34) || hasAchievement('a', 14) },
 	resetDescription() { return `Bend <b>${formatWhole(player.l.points)}</b> lines to make ` },
 	tabFormat: [
 		'main-display',
 		'prestige-button',
 		'resource-display',
 		'upgrades',
-    ],
+	],
+	upgrades: {
+		
+	},
 });

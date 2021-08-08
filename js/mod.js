@@ -5,7 +5,7 @@ let modInfo = {
 	pointsName: `points`,
 	modFiles: [ `tree.js`,
 				`layers/misc/achievements.js`, `layers/misc/info.js`,
-				`layers/line.js`, `layers/curve.js`,],
+				`layers/line.js`, `layers/curve.js`,  `layers/rectangle.js`,],
 
 	discordName: ``,
 	discordLink: ``,

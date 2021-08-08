@@ -11,6 +11,9 @@ addLayer("l", {
 
 		particles: new Decimal(0),
 		pps: new Decimal(1),
+		options: [
+			false,
+		],
 	}},
 	color: "#5b26e0",
 	requires() {
@@ -66,6 +69,8 @@ addLayer("l", {
 					'blank',
 					['display-text', '<h2>Particle Upgrades</h2>'],
 					['upgrades', [4]],
+					'blank',
+					'clickables',
 				];
 			},
 		},
@@ -75,6 +80,8 @@ addLayer("l", {
 
 		ps = new Decimal(1);
 		if (hasUpgrade('l', 41)) ps = ps.times(upgradeEffect('l', 41));
+		if (hasUpgrade('l', 42)) ps = ps.times(3);
+		if (hasUpgrade('l', 43)) ps = ps.times(1.1);
 
 		// add the particles
 		player.l.pps = ps;
@@ -171,6 +178,36 @@ addLayer("l", {
 				return eff;
 			},
 			effectDisplay() { return `${format(upgradeEffect('l', 41))}x` },
+		},
+		42: {
+			title: 'Beginner Boost',
+			description: 'Triple particle production',
+			cost: new Decimal(30),
+			currencyDisplayName: 'line particles',
+			currencyLocation() { return player.l },
+			currencyInternalName: 'particles',
+		},
+		43: {
+			title: 'Strategize',
+			description: 'Unlock particle production options and particle production x1.1',
+			cost: new Decimal(150),
+			currencyDisplayName: 'line particles',
+			currencyLocation() { return player.l },
+			currencyInternalName: 'particles',
+		},
+	},
+	clickables: {
+		11: {
+			display() { return `<h2>Point Transform</h2><br>Particle production is 0, but double point gain.<br>Formula may change.<br><br><h3>${player.l.options[0] ? 'Active' : 'Inactive'}</h3>` },
+			//unlocked() { return hasUpgrade('l', 43) },
+			canClick: true,
+			onClick() {
+				player.l.options[0] = !player.l.options[0];
+			},
+			style: {
+				'width': '200px',
+				'height': '200px',
+			},
 		},
 	},
 });

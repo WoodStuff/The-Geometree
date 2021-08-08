@@ -13,19 +13,32 @@ addLayer('a', {
 	update() {
 		player.a.points = new Decimal(player.a.achievements.length);
 	},
+    tabFormat: [
+        'main-display',
+        ['display-text', 'Warning: those contain spoilers. For row 2 and beyond, generally the 5 achievements after your furthest one are spoiler-free.'],
+        'achievements',
+    ],
 	achievementPopups: true,
 	achievements: {
 		11: {
 			name: 'Success',
 			done() { return player.l.points.gte(1) },
-			goalTooltip: 'Get 1 line', // Shows when achievement is not completed
-			doneTooltip: 'Get 1 line', // Showed when the achievement is completed
+			tooltip: 'Get 1 line', // Showed when the achievement is completed
 		},
 		12: {
-			name: 'Lots of Power',
+			name: 'Generation time!',
 			done() { return hasUpgrade('l', 33) },
-			goalTooltip: 'Start generating ???', // Shows when achievement is not completed
-			doneTooltip: 'Start generating line particles', // Showed when the achievement is completed
+			tooltip: 'Start generating line particles', // Showed when the achievement is completed
+		},
+        13: {
+			name: 'Maxed out',
+			done() { return hasUpgrade('l', 51) && hasUpgrade('l', 52) && hasUpgrade('l', 53) },
+			tooltip: 'Get 6 particle upgrades', // Showed when the achievement is completed
+		},
+        14: {
+			name: 'Circulated',
+			done() { return player.c.points.gte(1) },
+			tooltip: 'Get 1 curve', // Showed when the achievement is completed
 		},
 	},
 });

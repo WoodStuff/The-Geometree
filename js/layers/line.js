@@ -30,6 +30,8 @@ addLayer("l", {
 		mult = new Decimal(1);
 		if (hasUpgrade('l', 22)) mult = mult.times(2);
 		if (hasUpgrade('l', 23)) mult = mult.times(1.25);
+		if (hasUpgrade('l', 51)) mult = mult.times(upgradeEffect('l', 51))
+		if (hasUpgrade('l', 34)) mult = mult.times(upgradeEffect('l', 34))
 		return mult;
 	},
 	gainExp() { // Calculate the exponent on main currency from bonuses
@@ -68,7 +70,7 @@ addLayer("l", {
 					['display-text', `You are making ${format(player.l.pps)} line particles per second`],
 					'blank',
 					['display-text', '<h2>Particle Upgrades</h2>'],
-					['upgrades', [4]],
+					['upgrades', [4, 5]],
 					'blank',
 					hasUpgrade('l', 43) ? ['display-text', 'You can only have one option selected at a time'] : '',
 					'clickables',
@@ -133,7 +135,7 @@ addLayer("l", {
 				eff = player.points.plus(2).pow(0.1);
 				return eff;
 			},
-			effectDisplay() { return `${format(upgradeEffect('l', 12))}x` }
+			effectDisplay() { return `${format(upgradeEffect('l', 14))}x` }
 		},
 		21: {
 			title: 'Point Boost',
@@ -152,6 +154,17 @@ addLayer("l", {
 			description: 'Point and line production x1.25',
 			cost: new Decimal(10),
 			unlocked() { return hasUpgrade('l', 13) },
+		},
+		24: {
+			title: 'Polygonable',
+			description: 'Points boost line gain',
+			cost: new Decimal(7500),
+			unlocked() { return hasUpgrade('l', 14) && hasUpgrade('l', 51) && hasUpgrade('l', 52) && hasUpgrade('l', 53) },
+			effect() {
+				eff = player.points.plus(2).pow(0.075);
+				return eff;
+			},
+			effectDisplay() { return `${format(upgradeEffect('l', 24))}x` }
 		},
 		31: {
 			title: 'Overcharge',
@@ -181,6 +194,17 @@ addLayer("l", {
 			cost: new Decimal(100),
 			unlocked() { return hasUpgrade('l', 32) },
 		},
+		34: {
+			title: 'Zoom Out',
+			description: 'Lines boost themselves',
+			cost: new Decimal(6000),
+			unlocked() { return hasUpgrade('l', 24) },
+			effect() {
+				eff = player.l.points.plus(2).pow(0.1);
+				return eff;
+			},
+			effectDisplay() { return `${format(upgradeEffect('l', 34))}x` }
+		},
 		41: {
 			title: 'Production',
 			description: 'Particle production is boosted based on your amount of lines',
@@ -204,16 +228,53 @@ addLayer("l", {
 		},
 		43: {
 			title: 'Strategize',
-			description: 'Unlock particle production options and particle production x1.1',
-			cost: new Decimal(150),
+			description: 'Unlock production options and particle production x1.1',
+			cost: new Decimal(100),
 			currencyDisplayName: 'line particles',
 			currencyLocation() { return player.l },
 			currencyInternalName: 'particles',
 		},
+		51: {
+			title: 'Larvae',
+			description: 'Particles boost line gain',
+			cost: new Decimal(175),
+			currencyDisplayName: 'line particles',
+			currencyLocation() { return player.l },
+			currencyInternalName: 'particles',
+			unlocked() { return hasUpgrade('l', 41) && hasUpgrade('l', 42) && hasUpgrade('l', 43) },
+			effect() {
+				eff = player[this.layer].particles.plus(1).pow(0.15);
+				return eff;
+			},
+			effectDisplay() { return `${format(upgradeEffect('l', 51))}x` },
+		},
+		52: {
+			title: 'Faster Transformation',
+			description: 'Point Transform gives 2.5x point gain instead of 1.5x',
+			cost: new Decimal(300),
+			currencyDisplayName: 'line particles',
+			currencyLocation() { return player.l },
+			currencyInternalName: 'particles',
+			unlocked() { return hasUpgrade('l', 41) && hasUpgrade('l', 42) && hasUpgrade('l', 43) },
+		},
+		53: {
+			title: 'Secondary Power',
+			description: 'Line gain is multiplied by number of line upgrades you have (including particle upgrades)',
+			cost: new Decimal(500),
+			currencyDisplayName: 'line particles',
+			currencyLocation() { return player.l },
+			currencyInternalName: 'particles',
+			unlocked() { return hasUpgrade('l', 41) && hasUpgrade('l', 42) && hasUpgrade('l', 43) },
+			effect() {
+				eff = new Decimal(player[this.layer].upgrades.length).plus(1).pow(0.35);
+				return eff;
+			},
+			effectDisplay() { return `${format(upgradeEffect('l', 53))}x` },
+		},
 	},
 	clickables: {
 		11: {
-			display() { return `<h2>Point Transform</h2><br>Particle production is 0, but 1.5x point gain.<br>Formula may change.<br><br><h3>${player.l.options[0] ? 'Active' : 'Inactive'}</h3>` },
+			display() { return `<h2>Point Transform</h2><br>Particle production is 0, but ${hasUpgrade('l', 52) ? '2.5' : '1.5'}x point gain.<br>Formula may change.<br><br><h3>${player.l.options[0] ? 'Active' : 'Inactive'}</h3>` },
 			unlocked() { return hasUpgrade('l', 43) },
 			canClick: true,
 			onClick() {

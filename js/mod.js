@@ -3,7 +3,9 @@ let modInfo = {
 	id: `geometrytree`,
 	author: `nirmoll`,
 	pointsName: `points`,
-	modFiles: [`layers/misc/info.js`, `layers/line.js`, `tree.js`],
+	modFiles: [ `tree.js`,
+				`layers/misc/achievements.js`, `layers/misc/info.js`,
+				`layers/line.js`,],
 
 	discordName: ``,
 	discordLink: ``,
@@ -49,6 +51,8 @@ function getPointGen() {
 	if (hasUpgrade('l', 23)) gain = gain.times(1.25);
 	if (hasUpgrade('l', 33)) gain = gain.times(player.l.particles.add(1).pow(0.15));
 	
+	if (player.l.options[0]) gain = gain.times(1.5);
+
 	return gain;
 };
 

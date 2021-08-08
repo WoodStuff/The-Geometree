@@ -70,6 +70,7 @@ addLayer("l", {
 					['display-text', '<h2>Particle Upgrades</h2>'],
 					['upgrades', [4]],
 					'blank',
+					hasUpgrade('l', 43) ? ['display-text', 'You can only have one option selected at a time'] : '',
 					'clickables',
 				];
 			},
@@ -82,6 +83,9 @@ addLayer("l", {
 		if (hasUpgrade('l', 41)) ps = ps.times(upgradeEffect('l', 41));
 		if (hasUpgrade('l', 42)) ps = ps.times(3);
 		if (hasUpgrade('l', 43)) ps = ps.times(1.1);
+		if (hasUpgrade('l', 14)) ps = ps.times(upgradeEffect('l', 14));
+
+		if (player.l.options[0]) ps = ps.times(0);
 
 		// add the particles
 		player.l.pps = ps;
@@ -119,6 +123,17 @@ addLayer("l", {
 			cost: new Decimal(3),
 			//tooltip: 'You realize you can make straight lines with less points', // lore
 			unlocked() { return hasUpgrade('l', 12) },
+		},
+		14: {
+			title: 'Slight Addition',
+			description: 'Particle generation is boosted by points',
+			cost: new Decimal(1500),
+			unlocked() { return hasUpgrade('l', 41) && hasUpgrade('l', 42) && hasUpgrade('l', 43) },
+			effect() {
+				eff = player.points.plus(2).pow(0.1);
+				return eff;
+			},
+			effectDisplay() { return `${format(upgradeEffect('l', 12))}x` }
 		},
 		21: {
 			title: 'Point Boost',
@@ -198,16 +213,17 @@ addLayer("l", {
 	},
 	clickables: {
 		11: {
-			display() { return `<h2>Point Transform</h2><br>Particle production is 0, but double point gain.<br>Formula may change.<br><br><h3>${player.l.options[0] ? 'Active' : 'Inactive'}</h3>` },
-			//unlocked() { return hasUpgrade('l', 43) },
+			display() { return `<h2>Point Transform</h2><br>Particle production is 0, but 1.5x point gain.<br>Formula may change.<br><br><h3>${player.l.options[0] ? 'Active' : 'Inactive'}</h3>` },
+			unlocked() { return hasUpgrade('l', 43) },
 			canClick: true,
 			onClick() {
 				player.l.options[0] = !player.l.options[0];
 			},
-			style: {
+			style() { return {
 				'width': '200px',
 				'height': '200px',
-			},
+				'background-color': player.l.options[0] ? 'hsl(245deg 75% 65%)' : layers.l.color,
+			}; },
 		},
 	},
 });

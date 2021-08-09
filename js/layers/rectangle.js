@@ -11,7 +11,7 @@ addLayer("r", {
 	}},
 	color: "#13d5d5",
 	requires() {
-		req = new Decimal('1e6');
+		req = new Decimal('1e9');
 		return req;
 	},
 	resource: "rectangles", // Name of prestige currency

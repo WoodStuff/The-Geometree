@@ -28,10 +28,15 @@ addLayer("l", {
 	exponent: 0.5, // Prestige currency exponent
 	gainMult() { // Calculate the multiplier for main currency from bonuses
 		mult = new Decimal(1);
+
 		if (hasUpgrade('l', 22)) mult = mult.times(2);
 		if (hasUpgrade('l', 23)) mult = mult.times(1.25);
-		if (hasUpgrade('l', 51)) mult = mult.times(upgradeEffect('l', 51))
-		if (hasUpgrade('l', 34)) mult = mult.times(upgradeEffect('l', 34))
+		if (hasUpgrade('l', 51)) mult = mult.times(upgradeEffect('l', 51));
+		if (hasUpgrade('l', 34)) mult = mult.times(upgradeEffect('l', 34));
+
+		if (hasUpgrade('c', 11)) mult = mult.times(upgradeEffect('c', 11));
+		if (hasUpgrade('c', 13)) mult = mult.times(upgradeEffect('c', 13));
+
 		return mult;
 	},
 	gainExp() { // Calculate the exponent on main currency from bonuses
@@ -86,6 +91,9 @@ addLayer("l", {
 		if (hasUpgrade('l', 42)) ps = ps.times(3);
 		if (hasUpgrade('l', 43)) ps = ps.times(1.1);
 		if (hasUpgrade('l', 14)) ps = ps.times(upgradeEffect('l', 14));
+
+		if (hasUpgrade('c', 12)) ps = ps.times(upgradeEffect('c', 12));
+		if (hasUpgrade('c', 13)) ps = ps.times(upgradeEffect('c', 13));
 
 		if (player.l.options[0]) ps = ps.times(0);
 

@@ -40,7 +40,50 @@ addLayer("c", {
 		'resource-display',
 		'upgrades',
 	],
+	effect() {
+		eff = new Decimal(1.5).add(1).pow(player.c.points.add(1));
+		eff = softcap(eff, new Decimal(100), 0.5)
+		if (player.c.total.eq(0)) eff = new Decimal(1);
+		return eff;
+	},
+	effectDescription() { return `which are boosting point gain by ${format(tmp.c.effect)}x` },
+	milestones: {
+
+	},
 	upgrades: {
-		
+		11: {
+			title: 'Minicurves',
+			description: 'Curves boost line gain',
+			cost: new Decimal(1),
+			effect() {
+				eff = player[this.layer].points.plus(2).pow(1.2);
+				eff = softcap(eff, new Decimal(25), 0.1);
+				return eff;
+			},
+			effectDisplay() { return `${format(upgradeEffect('c', 11))}x` }
+		},
+		12: {
+			title: 'Roundness',
+			description: 'Curves boost line particle gain',
+			cost: new Decimal(1),
+			unlocked() { return hasUpgrade('c', 11) },
+			effect() {
+				eff = player[this.layer].points.plus(2).pow(1.5);
+				eff = softcap(eff, new Decimal(25), 0.5);
+				return eff;
+			},
+			effectDisplay() { return `${format(upgradeEffect('c', 12))}x` }
+		},
+		13: {
+			title: 'Generaler Boost',
+			description: 'Total curves boost point, line and line particle gain',
+			cost: new Decimal(2),
+			unlocked() { return hasUpgrade('c', 12) },
+			effect() {
+				eff = player[this.layer].total.plus(2).pow(0.5);
+				return eff;
+			},
+			effectDisplay() { return `${format(upgradeEffect('c', 13))}x` }
+		},
 	},
 });

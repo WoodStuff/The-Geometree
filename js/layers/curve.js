@@ -41,7 +41,7 @@ addLayer("c", {
 		'upgrades',
 	],
 	effect() {
-		eff = player.c.points.add(1).pow(0.5);
+		eff = player.c.points.add(3).pow(0.5);
 		eff = softcap(eff, new Decimal(100), 0.5)
 		if (player.c.total.eq(0)) eff = new Decimal(1);
 		return eff;

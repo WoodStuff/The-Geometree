@@ -410,3 +410,11 @@ function gridRun(layer, func, data, id) {
 	else
 		return layers[layer].grid[func];
 }
+
+// set all values in an array
+function setAll(a, v) {
+    var i, n = a.length;
+    for (i = 0; i < n; ++i) {
+        a[i] = v;
+    }
+}

@@ -50,6 +50,11 @@ addLayer("l", {
 	],
 	layerShown() { return true },
 	resetDescription() { return `<b>${formatWhole(player.points)}</b> points will make ` },
+	doReset(reset) {
+		keep = [];
+		if (layers[reset].row > this.row) layerDataReset('l', keep);
+		if (hasMilestone('c', 0) && (reset == 'c' || reset == 'r')) player.l.upgrades.push(33);
+	},
 	tabFormat: {
 		'Main': {
 			content() {
@@ -96,6 +101,7 @@ addLayer("l", {
 		if (hasUpgrade('c', 13)) ps = ps.times(upgradeEffect('c', 13));
 
 		if (player.l.options[0]) ps = ps.times(0);
+		if (player.l.options[1]) ps = ps.times(3);
 
 		// add the particles
 		player.l.pps = ps;
@@ -283,15 +289,32 @@ addLayer("l", {
 	clickables: {
 		11: {
 			display() { return `<h2>Point Transform</h2><br>Particle production is 0, but ${hasUpgrade('l', 52) ? '2.5' : '1.5'}x point gain.<br>Formula may change.<br><br><h3>${player.l.options[0] ? 'Active' : 'Inactive'}</h3>` },
-			unlocked() { return hasUpgrade('l', 43) },
+			unlocked() { return hasUpgrade('l', 43) || hasMilestone('c', 0) },
 			canClick: true,
 			onClick() {
-				player.l.options[0] = !player.l.options[0];
+				opt = player.l.options[0];
+				setAll(player.l.options, false);
+				player.l.options[0] = !opt;
 			},
 			style() { return {
 				'width': '200px',
 				'height': '200px',
 				'background-color': player.l.options[0] ? 'hsl(245deg 75% 65%)' : layers.l.color,
+			}; },
+		},
+		12: {
+			display() { return `<h2>Magnification</h2><br>Square root point production, but line particle gain is 3x.<br>Formula may change.<br><br><h3>${player.l.options[1] ? 'Active' : 'Inactive'}</h3>` },
+			unlocked() { return hasMilestone('c', 0) },
+			canClick: true,
+			onClick() {
+				opt = player.l.options[1];
+				setAll(player.l.options, false);
+				player.l.options[1] = !opt;
+			},
+			style() { return {
+				'width': '200px',
+				'height': '200px',
+				'background-color': player.l.options[1] ? 'hsl(245deg 75% 65%)' : layers.l.color,
 			}; },
 		},
 	},

@@ -40,5 +40,10 @@ addLayer('a', {
 			done() { return player.c.points.gte(1) },
 			tooltip: 'Get 1 curve', // Showed when the achievement is completed
 		},
+		15: {
+			name: 'Megagon',
+			done() { return player.points.gte('1e6') },
+			tooltip: 'Get 1 million points', // Showed when the achievement is completed
+		},
 	},
 });

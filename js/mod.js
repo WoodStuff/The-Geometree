@@ -55,6 +55,7 @@ function getPointGen() {
 	if (hasUpgrade('c', 13)) gain = gain.times(upgradeEffect('c', 13));
 
 	if (player.l.options[0]) gain = gain.times(hasUpgrade('l', 52) ? 2.5 : 1.5);
+	if (player.l.options[1]) gain = gain.pow(0.5);
 
 	return gain;
 };

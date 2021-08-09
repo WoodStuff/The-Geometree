@@ -38,6 +38,7 @@ addLayer("c", {
 		'main-display',
 		'prestige-button',
 		'resource-display',
+		'milestones',
 		'upgrades',
 	],
 	effect() {
@@ -48,7 +49,11 @@ addLayer("c", {
 	},
 	effectDescription() { return `which are boosting point gain by ${format(tmp.c.effect)}x` },
 	milestones: {
-
+		0: {
+			requirementDescription: '2 curves',
+			effectDescription: 'Unlock a new production option and keep <b>Acceleration</b> on reset',
+			done() { return player.c.points.gte(2) },
+		},
 	},
 	upgrades: {
 		11: {

@@ -37,7 +37,6 @@ function drawTree() {
 		drawComponentBranches(layer, tmp[layer].upgrades, "upgrade-")
 		drawComponentBranches(layer, tmp[layer].buyables, "buyable-")
 		drawComponentBranches(layer, tmp[layer].clickables, "clickable-")
-
 	}
 }
 

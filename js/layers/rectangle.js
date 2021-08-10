@@ -41,5 +41,4 @@ addLayer("r", {
 		'resource-display',
 		'upgrades',
 	],
-	
 });

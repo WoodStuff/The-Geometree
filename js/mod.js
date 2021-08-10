@@ -44,10 +44,11 @@ function getPointGen() {
 	if (hasUpgrade('l', 12)) gain = gain.times(upgradeEffect('l', 12));
 	if (hasUpgrade('l', 21)) gain = gain.times(2);
 	if (hasUpgrade('l', 23)) gain = gain.times(1.25);
-	if (hasUpgrade('l', 33)) gain = gain.times(player.l.particles.add(1).pow(0.15));
+	if (hasUpgrade('l', 33)) gain = gain.times(tmp.l.peffect);
 	
 	if (player.c.total.gte(1)) gain = gain.times(tmp.c.effect);
 	if (hasUpgrade('c', 13)) gain = gain.times(upgradeEffect('c', 13));
+	if (hasUpgrade('c', 21)) gain = gain.pow(1.1);
 
 	if (player.l.options[0]) gain = gain.times(hasUpgrade('l', 52) ? 2.5 : 1.5);
 	if (player.l.options[1]) gain = gain.pow(0.5);

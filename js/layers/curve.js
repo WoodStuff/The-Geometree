@@ -40,6 +40,7 @@ addLayer("c", {
 		'resource-display',
 		'milestones',
 		'upgrades',
+		'buyables',
 	],
 	effect() {
 		eff = player.c.points.add(2).log(10).add(2);
@@ -89,6 +90,29 @@ addLayer("c", {
 				return eff;
 			},
 			effectDisplay() { return `${format(upgradeEffect('c', 13))}x` }
+		},
+		21: {
+			title: 'Particle Boost',
+			description: 'Line particles use a better formula',
+			cost: new Decimal(5),
+			unlocked() { return hasUpgrade('c', 13) },
+		},
+		22: {
+			title: 'Exponential',
+			description: 'Point gain ^1.1',
+			cost: new Decimal(10),
+			unlocked() { return hasUpgrade('c', 13) },
+		},
+		23: {
+			title: 'Another Selfboost',
+			description: 'Line particles boost themselves',
+			cost: new Decimal(15),
+			unlocked() { return hasUpgrade('c', 13) },
+			effect() {
+				eff = player.l.particles.add(2).log(10).div(2).add(1);
+				return eff;
+			},
+			effectDisplay() { return `${format(upgradeEffect('c', 23))}x` }
 		},
 	},
 });

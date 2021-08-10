@@ -63,7 +63,7 @@ addLayer("l", {
 					'prestige-button',
 					'resource-display',
 					hasUpgrade('l', 33) ? 'blank' : '',
-					hasUpgrade('l', 33) ? ['display-text', `<span>You have <h3 style="color: ${layers.l.color};">${format(player.l.particles)}</h3> line particles, which are multiplying point gain by ${format(player.l.particles.add(1).pow(0.15))}</span>`] : '',
+					hasUpgrade('l', 33) ? ['display-text', `<span>You have <h3 style="color: ${layers.l.color};">${format(player.l.particles)}</h3> line particles, which are multiplying point gain by ${format(tmp.l.peffect)}</span>`] : '',
 					hasUpgrade('l', 33) ? 'blank' : '',
 					['upgrades', [1, 2, 3]],
 				];
@@ -76,7 +76,7 @@ addLayer("l", {
 					'main-display',
 					'prestige-button',
 					'blank',
-					['display-text', `<span>You have <h3 style="color: ${layers.l.color};">${format(player.l.particles)}</h3> line particles, which are multiplying point gain by ${format(player.l.particles.add(1).pow(0.15))}x</span>`],
+					['display-text', `<span>You have <h3 style="color: ${layers.l.color};">${format(player.l.particles)}</h3> line particles, which are multiplying point gain by ${format(tmp.l.peffect)}x</span>`],
 					['display-text', `You are making ${format(player.l.pps)} line particles per second`],
 					'blank',
 					['display-text', '<h2>Particle Upgrades</h2>'],
@@ -87,6 +87,11 @@ addLayer("l", {
 				];
 			},
 		},
+	},
+	peffect() {
+		eff = player.l.particles.add(1).pow(0.15);
+		if (hasUpgrade('c', 21)) eff = eff.times(2).log(10).times(10);
+		return eff;
 	},
 	update(diff) {
 		if (!hasUpgrade('l', 33)) return;
@@ -99,6 +104,7 @@ addLayer("l", {
 
 		if (hasUpgrade('c', 12)) ps = ps.times(upgradeEffect('c', 12));
 		if (hasUpgrade('c', 13)) ps = ps.times(upgradeEffect('c', 13));
+		if (hasUpgrade('c', 23)) ps = ps.times(upgradeEffect('c', 23));
 
 		if (player.l.options[0]) ps = ps.times(0);
 		if (player.l.options[1]) ps = ps.times(3);

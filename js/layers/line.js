@@ -31,6 +31,7 @@ addLayer("l", {
 
 		if (hasUpgrade('l', 22)) mult = mult.times(2);
 		if (hasUpgrade('l', 23)) mult = mult.times(1.25);
+		if (hasUpgrade('l', 24)) mult = mult.times(upgradeEffect('l', 24));
 		if (hasUpgrade('l', 51)) mult = mult.times(upgradeEffect('l', 51));
 		if (hasUpgrade('l', 34)) mult = mult.times(upgradeEffect('l', 34));
 
